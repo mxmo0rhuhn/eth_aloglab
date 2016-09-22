@@ -1,3 +1,11 @@
+# Intellij
+*.idea/**
+*.iml
+*.iws
+*.ipr
+*.ids
+*.orig
+
 # Compiled Object files
 *.slo
 *.lo
@@ -27,3 +35,4 @@
 *.exe
 *.out
 *.app
+*.bin
