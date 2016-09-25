@@ -25,8 +25,8 @@ if [ -z "$2" ]; then
     exit 2
 fi
 
-rm -v $TMP_BIN
-rm -v $TMP_OUT
+rm -fv $TMP_BIN
+rm -fv $TMP_OUT
 
 g++  -Wall -O3 -o $TMP_BIN $1
 

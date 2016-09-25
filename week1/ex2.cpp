@@ -26,33 +26,28 @@ int main() {
     num_even_pairs = 0;
     cin >> num; 
 
-    vector<int> numbers(num, 0); 
-    vector<int> sums(num, 0);  // sum up to that number
-    vector<int> evens(num, 0); // number of even pairs up to that number
-    vector<int> odds(num, 0);  // number of odd pairs up to that number 
+    int number;
+    int last_number;
+    int evens;
+    int odds;
+    last_number = 0;
+    evens = 0;
+    odds = 0;
 
     for(int n = 0; n < num; n++) {
-      cin >> numbers[n];
-      sums[n] += sums[n-1] + numbers[n];
+      cin >> number;
+      number = (last_number + number) % 2;
 
-      if((sums[n] % 2) == 0) {
-        evens[n] = evens[n-1] + 1;
-        odds[n] = odds[n-1]; 
-      } else {
-        evens[n] = evens[n-1]; 
-        odds[n] = odds[n-1] + 1;
-      }
-    }
-
-    for(int i = 0; i < num; i++) {
-      if((sums[i] % 2) == 0) {
+      if(number == 0) {
         num_even_pairs++;
-        num_even_pairs += evens[i-1];
+        num_even_pairs += evens;
+        evens += 1;
       } else {
-        num_even_pairs += odds[i-1];
+        num_even_pairs += odds;
+        odds += 1;
       }
+      last_number = number;
     }
-
     printf("%d\n", num_even_pairs);
   }
 }
