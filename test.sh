@@ -5,6 +5,12 @@ set -e
 TMP_BIN="/tmp/test.bin"
 TMP_OUT="/tmp/test.out"
 
+usage() {
+   echo ""
+   echo "Usage: $0 SOURCE_CODE TEST_SET_NAME"
+   echo ""
+}
+
 if [ -z "$1" ]; then
     echo "too few arguments"
     echo "first argument has to be the the source file"
@@ -31,9 +37,3 @@ if [ "$?" == 0 ]; then
    echo "All went well"
    echo ""
 fi
-
-usage() {
-   echo ""
-   echo "Usage: $0 SOURCE_CODE TEST_SET_NAME"
-   echo ""
-}

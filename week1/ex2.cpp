@@ -4,6 +4,16 @@
 
 using namespace std;
 
+/**
+ * Input: The first line of the input contains the number 1 ≤ t ≤ 30 of test cases. 
+ * Each of the t test cases is described as follows:
+ * - It starts with a line that contains an integer n such that 1 ≤ n ≤ 50000.
+ * - The next line contains n values x 1 , . . . , x n , separated by spaces. 
+ *   Each value x i is either 0 or 1.
+ * 
+ * Output: For each test case output a line containing the number of 
+ * pairs 1 ≤ i ≤ j ≤ n such that the sum x i + · · · + x j is even.
+ */ 
 int main() {
 
   int cases; // number of cases
