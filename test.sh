@@ -25,6 +25,9 @@ if [ -z "$2" ]; then
     exit 2
 fi
 
+rm -v $TMP_BIN
+rm -v $TMP_OUT
+
 g++  -Wall -O3 -o $TMP_BIN $1
 
 chmod +x $TMP_BIN

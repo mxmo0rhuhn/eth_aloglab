@@ -26,58 +26,62 @@ int main() {
   cin >> cases;
 
   for(int c = 0; c < cases; c++) {
-    even_quadrupels = 0;
     cin >> n;
+    even_quadrupels = 0;
     /** 
      * The 4 entries in the vector for every point in the matrix are: 
      * 0 - Is the horizontally sum of the line ending here even or odd (0 even, 1 odd)
-     * 1 - Number of even quadruples ending here horizontally
-     * 2 - Number of odd quadruples ending here horizontally
-     * 3 - Is the vertically sum of the line ending here even or odd (0 even, 1 odd)
-     * 4 - Number of even quadruples ending here vertically
-     * 5 - Number of odd quadruples ending here vertically
+     * 1 - Is the vertically sum of the line ending here even or odd (0 even, 1 odd)
+     * 2 - Number of even quadruples ending here 
+     * 3 - Number of odd quadruples ending here 
+     * 
      */
     vector< vector<int> > lastLine((n+1), vector<int>(6,0)); 
     vector< vector<int> > thisLine((n+1), vector<int>(6,0)); 
 
     for(int line = 0; line < n; line++) {
       // entry starting at 1 to have a 0th entry in every line 
-      for(int entry = 1; entry < n; entry++) {
+      for(int entry = 1; entry <= n; entry++) {
         cin >> number;
 
         // horizontal 
         if( ((thisLine[n-1][0] + number) % 2) == 0) {
           // even
           thisLine[n][0] = 0;
-          // number of even quadruples ending here is the last evens + 1
-          thisLine[n][1] = thisLine[n-1][1] + 1;
-          thisLine[n][2] = thisLine[n-1][2];
         } else {
           // odd
           thisLine[n][0] = 1;
-          // number of even quadruples ending here is the last odds + 1
-          thisLine[n][1] = thisLine[n-1][2] + 1;
-          thisLine[n][2] = thisLine[n-1][1];
         }
-        // vertically
-        if( ((lastLine[n][0] + number) % 2) == 0) {
+
+        // vertical
+        if( ((lastLine[n][1] + number) % 2) == 0) {
           // even
-          thisLine[n][3] = 0;
+          thisLine[n][1] = 0;
+        } else {
+          // odd
+          thisLine[n][1] = 1;
+        }
+
+        if(number == 0 ) {
+          // the field itself is a quadruple
+          even_quadrupels += 1;
+        } 
+
+        if(thisLine[n][0] == 0 && thisLine[n][1] == 0) {
+          thisLine[n][2] += thisLine[n-1][2] + lastLine[n][2] + 1; + 1;
+          
+
+        } else if(thisLine[n][0] == 1 && thisLine[n][1] == 1) {
+        } else if(thisLine[n][0] == 0 && thisLine[n][1] == 1) {
+        } else if(thisLine[n][0] == 1 && thisLine[n][1] == 0) {
+        }
           // number of even quadruples ending here is the last evens + 1
           thisLine[n][4] = lastLine[n][4] + 1;
           thisLine[n][5] = lastLine[n][5];
-        } else {
-          // odd
-          thisLine[n][3] = 1;
-          // number of even quadruples ending here is the last odds + 1
-          thisLine[n][4] = lastLine[n][5] + 1;
-          thisLine[n][5] = lastLine[n][4];
-        }
         even_quadrupels += thisLine[n][1] + thisLine[n][4];
       }
       lastLine = thisLine;
     }
+    printf("%d \n", even_quadrupels);
   }
-
-  printf("%d\n", even_quadrupels);
 }
