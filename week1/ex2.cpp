@@ -16,12 +16,11 @@ using namespace std;
  */ 
 int main() {
 
-  int cases; // number of cases
-  int num; // numbers of values for a case
-  int num_even_pairs;
-  string in_string; 
+  int cases;          // number of cases
+  int num;            // numbers of values for a case
+  int num_even_pairs; // the result
 
-  cin >> cases; // read nr of cases
+  cin >> cases;       // read nr of cases
 
   for(int c = 0; c < cases; c++) {
     num_even_pairs = 0;
@@ -29,8 +28,8 @@ int main() {
 
     vector<int> numbers(num, 0); 
     vector<int> sums(num, 0);  // sum up to that number
-    vector<int> evens(num, 0); 
-    vector<int> odds(num, 0);  
+    vector<int> evens(num, 0); // number of even pairs up to that number
+    vector<int> odds(num, 0);  // number of odd pairs up to that number 
 
     for(int n = 0; n < num; n++) {
       cin >> numbers[n];
