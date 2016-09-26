@@ -20,68 +20,86 @@ int main() {
   int cases;      // case per testset
   int n;          // cardinality of the matrix (lines per case / entries per line)
   int number;     // the currently viewed matrix entry
-  vector<int> thisEntry(6,0); // DP infos for the currently viewed entry
+  vector<int> thisEntry(9,0); // DP infos for the currently viewed entry
   int even_quadrupels;        // the result
 
   cin >> cases;
 
   for(int c = 0; c < cases; c++) {
-    cin >> n;
     even_quadrupels = 0;
+    cin >> n;
     /** 
      * The 4 entries in the vector for every point in the matrix are: 
      * 0 - Is the horizontally sum of the line ending here even or odd (0 even, 1 odd)
-     * 1 - Is the vertically sum of the line ending here even or odd (0 even, 1 odd)
-     * 2 - Number of even quadruples ending here 
-     * 3 - Number of odd quadruples ending here 
-     * 
+     * 1 - Number of even quadruples ending here horizontally
+     * 2 - Number of odd quadruples ending here horizontally
+     * 3 - Is the vertically sum of the line ending here even or odd (0 even, 1 odd)
+     * 4 - Number of even quadruples ending here vertically
+     * 5 - Number of odd quadruples ending here vertically
+     * 6 - crossways sum
+     * 5 - Number of even quadruples ending here crossways
+     * 7 - Number of odd quadruples ending here crossways
      */
-    vector< vector<int> > lastLine((n+1), vector<int>(6,0)); 
-    vector< vector<int> > thisLine((n+1), vector<int>(6,0)); 
+    vector< vector<int> > lastLine((n+1), vector<int>(9,0)); 
+    vector< vector<int> > thisLine((n+1), vector<int>(9,0)); 
 
     for(int line = 0; line < n; line++) {
       // entry starting at 1 to have a 0th entry in every line 
+
       for(int entry = 1; entry <= n; entry++) {
         cin >> number;
 
-        // horizontal 
-        if( ((thisLine[n-1][0] + number) % 2) == 0) {
-          // even
-          thisLine[n][0] = 0;
+        thisLine[entry][0] = ((thisLine[entry-1][0] + number) % 2);
+        thisLine[entry][3] = ((lastLine[entry][3] + number) % 2);
+        thisLine[entry][6] = ((   thisLine[entry-1][0] 
+                                + lastLine[entry][3] 
+                                + lastLine[entry-1][6] 
+                                + number) % 2);
+
+        if ((thisLine[entry][0] % 2 ) == 0 ) {
+          thisLine[entry][1] = thisLine[entry-1][1] + 1;
+          thisLine[entry][2] = thisLine[entry-1][2];
+          even_quadrupels += thisLine[entry][1];
+          printf("even sum horizontally + %d \n", thisLine[entry][1]);
         } else {
-          // odd
-          thisLine[n][0] = 1;
+          thisLine[entry][1] = thisLine[entry-1][1];
+          thisLine[entry][2] = thisLine[entry-1][2] + 1;
+          even_quadrupels += thisLine[entry-1][2];
+          printf("odd sum horizontally + %d \n", thisLine[entry-1][2]);
         }
 
-        // vertical
-        if( ((lastLine[n][1] + number) % 2) == 0) {
-          // even
-          thisLine[n][1] = 0;
+        if ((thisLine[entry][3] % 2 ) == 0 ) {
+          thisLine[entry][4] = lastLine[entry][4] + 1;
+          thisLine[entry][5] = lastLine[entry][5];
+          even_quadrupels += thisLine[entry][4];
+          printf("even sum vertically + %d \n", thisLine[entry][4]);
         } else {
-          // odd
-          thisLine[n][1] = 1;
+          thisLine[entry][4] = lastLine[entry][4];
+          thisLine[entry][5] = lastLine[entry][5] + 1;
+          even_quadrupels += lastLine[entry][5];
+          printf("odd sum vertically + %d\n", lastLine[entry][5]);
         }
 
-        if(number == 0 ) {
-          // the field itself is a quadruple
-          even_quadrupels += 1;
-        } 
-
-        if(thisLine[n][0] == 0 && thisLine[n][1] == 0) {
-          thisLine[n][2] += thisLine[n-1][2] + lastLine[n][2] + 1; + 1;
-          
-
-        } else if(thisLine[n][0] == 1 && thisLine[n][1] == 1) {
-        } else if(thisLine[n][0] == 0 && thisLine[n][1] == 1) {
-        } else if(thisLine[n][0] == 1 && thisLine[n][1] == 0) {
+        if ((thisLine[entry][6] % 2 ) == 0 ) {
+          thisLine[entry][7] = lastLine[entry-1][7] + 1;
+          thisLine[entry][8] = lastLine[entry-1][8];
+          if (entry > 1 && line > 0) {
+            // crossways numbers can not start at the border
+            even_quadrupels += thisLine[entry][7];
+            printf("even sum crossways + %d\n", thisLine[entry][7]);
+          }
+        } else {
+          thisLine[entry][7] = lastLine[entry-1][7];
+          thisLine[entry][8] = lastLine[entry-1][8] + 1;
+          if (entry > 1 && line > 0) {
+            // crossways numbers can not start at the border
+            even_quadrupels += lastLine[entry-1][8];
+            printf("odd sum crossways + %d\n", lastLine[entry-1][8]);
+          }
         }
-          // number of even quadruples ending here is the last evens + 1
-          thisLine[n][4] = lastLine[n][4] + 1;
-          thisLine[n][5] = lastLine[n][5];
-        even_quadrupels += thisLine[n][1] + thisLine[n][4];
       }
       lastLine = thisLine;
     }
-    printf("%d \n", even_quadrupels);
+    printf("%d\n", even_quadrupels);
   }
 }

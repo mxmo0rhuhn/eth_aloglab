@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 TMP_BIN="/tmp/test.bin"
 TMP_OUT="/tmp/test.out"
 
@@ -39,4 +37,6 @@ if [ "$?" == 0 ]; then
    echo ""
    echo "All went well"
    echo ""
+ else
+   vimdiff "$2.out" $TMP_OUT
 fi
