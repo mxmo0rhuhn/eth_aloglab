@@ -17,36 +17,32 @@ using namespace std;
 int main() {
 
   int cases;          // number of cases
-  int num;            // numbers of values for a case
+  int num_elem;       // number of elements in this case
   int num_even_pairs; // the result
 
   cin >> cases;       // read nr of cases
 
   for(int c = 0; c < cases; c++) {
     num_even_pairs = 0;
-    cin >> num; 
+    cin >> num_elem; 
 
-    int number;
-    int last_number;
-    int evens;
-    int odds;
-    last_number = 0;
-    evens = 0;
-    odds = 0;
+    int number;    // current number
+    int sum = 0;   // sum up to this point (even or odd)
+    int evens = 0; // number of even pairs ending here
+    int odds = 0;  // number of odd pairs ending here
 
-    for(int n = 0; n < num; n++) {
+    for(int n = 0; n < num_elem; n++) {
       cin >> number;
-      number = (last_number + number) % 2;
+      sum = (sum + number) % 2;
 
-      if(number == 0) {
+      if(sum == 0) {
         num_even_pairs++;
         num_even_pairs += evens;
-        evens += 1;
+        evens ++;
       } else {
         num_even_pairs += odds;
-        odds += 1;
+        odds ++;
       }
-      last_number = number;
     }
     printf("%d\n", num_even_pairs);
   }
