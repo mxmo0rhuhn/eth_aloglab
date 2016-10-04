@@ -26,7 +26,13 @@ fi
 rm -fv $TMP_BIN
 rm -fv $TMP_OUT
 
-g++  -Wall -O3 -o $TMP_BIN $1
+g++ -Werror -Wall -O3 -o $TMP_BIN $1
+
+RETURN=$?
+if [ ! $RETURN -eq 0 ]; then 
+  echo "compile error";
+  exit 1
+fi
 
 chmod +x $TMP_BIN
 
